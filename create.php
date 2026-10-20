@@ -20,8 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ----- Validasi -----
     if ($judul === '') {
         $errors['judul'] = 'Judul wajib diisi.';
-    } elseif (mb_strlen($judul) > 150) {
-        $errors['judul'] = 'Judul maksimal 150 karakter.';
+    } elseif ($teknologi === '') {
+        $errors['teknologi'] = 'Teknologi wajib diisi.';
+    } elseif ($tautan === '') {
+        $errors['tautan'] = 'Tautan wajib diisi.';
+    } elseif (mb_strlen($judul) > 10) {
+        $errors['judul'] = 'Judul maksimal 10 karakter.';
     }
 
     if (mb_strlen($teknologi) > 100) {
@@ -88,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="field">
                     <label for="judul">Judul <span class="req">*</span></label>
-                    <input type="text" id="judul" name="judul" maxlength="150"
+                    <input type="text" id="judul" name="judul" maxlength="10"
                            value="<?= htmlspecialchars($judul) ?>">
                     <?php if (isset($errors['judul'])): ?>
                         <small class="error"><?= htmlspecialchars($errors['judul']) ?></small>
