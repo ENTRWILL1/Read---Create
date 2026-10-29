@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['teknologi'] = 'Teknologi wajib diisi.';
     } elseif ($tautan === '') {
         $errors['tautan'] = 'Tautan wajib diisi.';
-    } elseif (mb_strlen($judul) > 10) {
-        $errors['judul'] = 'Judul maksimal 10 karakter.';
+    } elseif (mb_strlen($judul) > 100) {
+        $errors['judul'] = 'Judul maksimal 100 karakter.';
     }
 
     if (mb_strlen($teknologi) > 100) {
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="field">
                     <label for="judul">Judul <span class="req">*</span></label>
-                    <input type="text" id="judul" name="judul" maxlength="10"
+                    <input type="text" id="judul" name="judul" maxlength="100"
                            value="<?= htmlspecialchars($judul) ?>">
                     <?php if (isset($errors['judul'])): ?>
                         <small class="error"><?= htmlspecialchars($errors['judul']) ?></small>
