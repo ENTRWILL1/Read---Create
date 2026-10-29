@@ -3,7 +3,7 @@ require_once __DIR__ . '/config/database.php';
 
 // READ: mengambil dan menampilkan data project dari database.
 $stmt = $pdo->query(
-    'SELECT id, judul, deskripsi, teknologi, tautan, dibuat_pada
+    'SELECT id, judul, deskripsi, teknologi, tautan, dibuat_pada, diedit_pada
      FROM projects
      ORDER BY id ASC'
 );
@@ -12,6 +12,7 @@ $projects = $stmt->fetchAll();
 $daftarPesan = [
     'tambah' => ['success', 'Project berhasil ditambahkan.'],
     'hapus'  => ['success', 'Project berhasil dihapus.'],
+    'ubah'   => ['success', 'Project berhasil diperbarui.'],
     'gagal'  => ['error', 'Project tidak ditemukan atau id tidak valid.'],
 ];
 $kodePesan = $_GET['pesan'] ?? '';
@@ -53,6 +54,7 @@ $pesan = $daftarPesan[$kodePesan] ?? null;
                             <th>Teknologi</th>
                             <th>Tautan</th>
                             <th>Tanggal Dibuat</th>
+                            <th>Tanggal Diedit</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -76,12 +78,17 @@ $pesan = $daftarPesan[$kodePesan] ?? null;
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($project['dibuat_pada'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= !empty($project['diedit_pada']) ? htmlspecialchars(date('Y-m-d', strtotime($project['diedit_pada'])), ENT_QUOTES, 'UTF-8') : '-' ?></td>
                             <td>
-                                <form method="post" action="delete.php"
-                                      onsubmit="return confirm('Hapus project ini?');">
-                                    <input type="hidden" name="id" value="<?= (int) $project['id'] ?>">
-                                    <button type="submit" class="btn btn-danger btn-small">Hapus</button>
-                                </form>
+                                <div class="actions">
+                                    <a href="edit.php?id=<?= (int) $project['id'] ?>"
+                                       class="btn btn-secondary btn-small">Edit</a>
+                                    <form method="post" action="delete.php"
+                                          onsubmit="return confirm('Hapus project ini?');">
+                                        <input type="hidden" name="id" value="<?= (int) $project['id'] ?>">
+                                        <button type="submit" class="btn btn-danger btn-small">Hapus</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
